@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace DEppAssignment3
 {
+    /// <summary>
+    /// A class to model a tile in the 15-puzzle
+    /// </summary>
     public class Tile : Button
     {
         private FifteenPuzzle game;

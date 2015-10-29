@@ -12,12 +12,15 @@ using System.Windows.Forms;
 
 namespace DEppAssignment3
 {
+    /// <summary>
+    /// A class to model a fifteen-puzzle game
+    /// </summary>
     public partial class FifteenPuzzle : Form
     {
-        const int DEFAULT_NUM_COLUMNS = 3;
-        const int DEFAULT_NUM_ROWS = 3;
-        const int HEIGHT = 50;
-        const int WIDTH = 50;
+        const int DEFAULT_NUM_COLUMNS = 4;
+        const int DEFAULT_NUM_ROWS = 4;
+        const int HEIGHT = 65;
+        const int WIDTH = 65;
         const int TOP = 10;
         const int LEFT = 10;
         const int SCRAMBLE_FACTOR = 10;
@@ -89,10 +92,10 @@ namespace DEppAssignment3
         /// <summary>
         /// Moves the selected tile according to a key code
         /// </summary>
-        /// <param name="keyCode">The specified key code</param>
+        /// <param name="direction">The specified key code</param>
         /// <param name="showMoves">Whether or not to pause between moves</param>
         /// <returns>Whether the move was successful</returns>
-        private bool moveByButton(string keyCode, bool showMoves)
+        private bool moveByDirection(string direction, bool showMoves)
         {
             int emptyTileRow = findEmptyTile()[0];
             int emptyTileCol = findEmptyTile()[1];
@@ -102,7 +105,7 @@ namespace DEppAssignment3
                 Thread.Sleep(100);
             }
 
-            switch (keyCode)
+            switch (direction)
             {
                 case "A":
                     if (emptyTileCol != num_columns - 1)
@@ -176,55 +179,9 @@ namespace DEppAssignment3
             }
         }
         /// <summary>
-        /// scrambles the tiles a specified number of times
+        /// Finds the position of the empty tile
         /// </summary>
-        /// <param name="num">the number of times to scramble the tiles</param>
-        public void scramble(int num)
-        {
-            Random rand = new Random();
-            for (int i = 0; i < num; i++)
-            {
-                int val = rand.Next(NUM_DIRECTIONS);
-                switch (val)
-                {
-                    case 0:
-                        if (moveByButton("A", false))
-                        {
-                            allMoves.Add('D');
-                        }
-                        break;
-                    case 1:
-                        if (moveByButton("S", false))
-                        {
-                            allMoves.Add('W');
-                        }
-                        break;
-                    case 2:
-                        if (moveByButton("D", false))
-                        {
-                            allMoves.Add('A');
-                        }
-                        break;
-                    case 3:
-                        if (moveByButton("W", false))
-                        {
-                            allMoves.Add('S');
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        /// <summary>
-        /// Calls the check method to see if the game has been solved
-        /// </summary>
-        /// <param name="sender">The button pressed</param>
-        /// <param name="e">Event arguments for the click event</param>
-        private void btnCheck_Click(object sender, EventArgs e)
-        {
-            checkWin();
-        }
+        /// <returns>The row and column of the empty tile</returns>
         private int[] findEmptyTile()
         {
             int[] position = new int[2];
@@ -240,6 +197,18 @@ namespace DEppAssignment3
                 }
             }
             return position;
+        }
+        /// <summary>
+        /// Calls the check method to see if the game has been solved
+        /// </summary>
+        /// <param name="sender">The button pressed</param>
+        /// <param name="e">Event arguments for the click event</param>
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            if (!checkWin())
+            {
+                MessageBox.Show("Not solved yet");
+            }
         }
         /// <summary>
         /// Checks if the game has been solved
@@ -265,18 +234,6 @@ namespace DEppAssignment3
             return result;
         }
         /// <summary>
-        /// solves the puzzle based on recorded moves
-        /// </summary>
-        private void solvePuzzle()
-        {
-            allMoves.Reverse();
-            foreach (char direction in allMoves)
-            {
-                moveByButton(direction.ToString(), true);
-            }
-            allMoves = new List<char>();
-        }
-        /// <summary>
         /// Moves the appropriate tile based on a key press
         /// </summary>
         /// <param name="sender">The key that was pressed</param>
@@ -284,15 +241,15 @@ namespace DEppAssignment3
         private void FifteenPuzzle_KeyDown(object sender, KeyEventArgs e)
         {
             string key = e.KeyCode.ToString();
-            if (moveByButton(key, false))
+            if (moveByDirection(key, false))
             {
                 switch (key)
                 {
-                    case "A":
-                        allMoves.Add('D');
-                        break;
                     case "S":
                         allMoves.Add('W');
+                        break;
+                    case "A":
+                        allMoves.Add('D');
                         break;
                     case "D":
                         allMoves.Add('A');
@@ -306,6 +263,56 @@ namespace DEppAssignment3
             checkWin();
         }
         /// <summary>
+        /// Scrambles the tiles
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
+        private void btnScramble_Click(object sender, EventArgs e)
+        {
+            scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
+        }
+        /// <summary>
+        /// scrambles the tiles a specified number of times
+        /// </summary>
+        /// <param name="num">the number of times to scramble the tiles</param>
+        public void scramble(int num)
+        {
+            Random rand = new Random();
+            for (int i = 0; i < num; i++)
+            {
+                int val = rand.Next(NUM_DIRECTIONS);
+                switch (val)
+                {
+                    case 0:
+                        if (moveByDirection("A", false))
+                        {
+                            allMoves.Add('D');
+                        }
+                        break;
+                    case 1:
+                        if (moveByDirection("S", false))
+                        {
+                            allMoves.Add('W');
+                        }
+                        break;
+                    case 2:
+                        if (moveByDirection("D", false))
+                        {
+                            allMoves.Add('A');
+                        }
+                        break;
+                    case 3:
+                        if (moveByDirection("W", false))
+                        {
+                            allMoves.Add('S');
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        /// <summary>
         /// Solves the puzzle
         /// </summary>
         /// <param name="sender">The button that was clicked</param>
@@ -316,13 +323,16 @@ namespace DEppAssignment3
             checkWin();
         }
         /// <summary>
-        /// Scrambles the tiles
+        /// solves the puzzle based on recorded moves
         /// </summary>
-        /// <param name="sender">The button that was clicked</param>
-        /// <param name="e">Event arguments for the click event</param>
-        private void btnScramble_Click(object sender, EventArgs e)
+        private void solvePuzzle()
         {
-            scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
+            allMoves.Reverse();
+            foreach (char direction in allMoves)
+            {
+                moveByDirection(direction.ToString(), true);
+            }
+            allMoves = new List<char>();
         }
         /// <summary>
         /// Saves the game on a button click
@@ -365,6 +375,7 @@ namespace DEppAssignment3
             StreamWriter writer = new StreamWriter(fileName);
             writer.WriteLine(num_rows);
             writer.WriteLine(num_columns);
+
             for (int i = 0; i < num_rows; i++)
             {
                 for (int j = 0; j < num_columns; j++)
@@ -431,8 +442,8 @@ namespace DEppAssignment3
             }
             generateGrid(num_rows, num_columns, gameString);
             allMoves = reader.ReadLine().ToList<char>();
-            reader.Close();
 
+            reader.Close();
         }
         /// <summary>
         /// Generates the grid of tiles given a number of rows, columns and a string of numbers
