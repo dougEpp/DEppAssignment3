@@ -290,7 +290,25 @@ namespace DEppAssignment3
         private void FifteenPuzzle_KeyDown(object sender, KeyEventArgs e)
         {
             string key = e.KeyCode.ToString();
-            moveByButton(key, false);
+            if (moveByButton(key, false))
+            {
+                switch(key)
+                {
+                    case "A":
+                        allMoves.Add("D");
+                        break;
+                    case "S":
+                        allMoves.Add("W");
+                        break;
+                    case "D":
+                        allMoves.Add("A");
+                        break;
+                    case "W":
+                        allMoves.Add("S");
+                        break;
+                    default: break;
+                }
+            }
             checkWin();
         }
         /// <summary>
