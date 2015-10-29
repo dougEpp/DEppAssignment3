@@ -79,6 +79,7 @@
             // 
             // dlgSave
             // 
+            this.dlgSave.FileName = "Game";
             this.dlgSave.Filter = "Game File|*.gam|Text Files|*.txt";
             // 
             // btnLoad
@@ -93,7 +94,7 @@
             // 
             // dlgOpen
             // 
-            this.dlgOpen.FileName = "openFileDialog1";
+            this.dlgOpen.FileName = "Game";
             this.dlgOpen.Filter = "Game Files|*.gam|Text Files|*.txt";
             // 
             // FifteenPuzzle

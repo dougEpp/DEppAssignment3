@@ -28,6 +28,9 @@ namespace DEppAssignment3
         int num_columns;
         string winString;
         List<char> allMoves;
+        /// <summary>
+        /// Initializes the game with a new, scrambled grid of tiles
+        /// </summary>
         public FifteenPuzzle()
         {
             InitializeComponent();
@@ -37,34 +40,14 @@ namespace DEppAssignment3
 
             tiles = new Tile[num_rows, num_columns];
 
-            //int x;
-            //int y = TOP;
-            //for (int i = 0; i < num_rows; i++)
-            //{
-            //    x = LEFT;
-            //    for (int j = 0; j < num_columns; j++)
-            //    {
-            //        int num = num_columns * i + j + 1;
-            //        if (num != num_rows * num_columns)//leave bottom right square blank
-            //        {
-            //            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
-            //            winString += num.ToString() + "_";
-            //        }
-            //        x += WIDTH;
-            //    }
-            //    y += HEIGHT;
-            //}
-            //foreach (Tile tile in tiles)
-            //{
-            //    Controls.Add(tile);
-            //}
-            //allMoves = new List<char>();
+            string defaultOrder = "";
             for (int i = 1; i < num_rows * num_columns; i++)
             {
-                winString += i.ToString() + "_";
+                defaultOrder += i.ToString() + "_";
             }
-            winString += "-1";
-            generateGrid(num_rows, num_columns, winString);
+            defaultOrder += "-1";
+
+            generateGrid(num_rows, num_columns, defaultOrder);
 
             int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
 
@@ -273,7 +256,7 @@ namespace DEppAssignment3
                     order += item.Text + "_";
                 }
             }
-            if (winString.Contains(order) && tiles[num_rows - 1, num_columns - 1] == null)
+            if (order == winString && tiles[num_rows - 1, num_columns - 1] == null)
             {
                 MessageBox.Show("You Win!");
                 result = true;
@@ -341,7 +324,11 @@ namespace DEppAssignment3
         {
             scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
         }
-
+        /// <summary>
+        /// Saves the game on a button click
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             DialogResult r = dlgSave.ShowDialog();
@@ -369,7 +356,10 @@ namespace DEppAssignment3
                     break;
             }
         }
-
+        /// <summary>
+        /// Saves the current game
+        /// </summary>
+        /// <param name="fileName">The file to save the game to</param>
         private void doSave(string fileName)
         {
             StreamWriter writer = new StreamWriter(fileName);
@@ -392,7 +382,11 @@ namespace DEppAssignment3
             writer.WriteLine(new string(allMoves.ToArray()));
             writer.Close();
         }
-
+        /// <summary>
+        /// Loads a saved game
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
         private void btnLoad_Click(object sender, EventArgs e)
         {
             DialogResult r = dlgOpen.ShowDialog();
@@ -420,7 +414,10 @@ namespace DEppAssignment3
                     break;
             }
         }
-
+        /// <summary>
+        /// Loads the selected saved game
+        /// </summary>
+        /// <param name="filename">The filename of the saved game</param>
         private void doLoad(string filename)
         {
             StreamReader reader = new StreamReader(filename);
@@ -434,13 +431,15 @@ namespace DEppAssignment3
             }
             generateGrid(num_rows, num_columns, gameString);
             allMoves = reader.ReadLine().ToList<char>();
+            reader.Close();
+
         }
         /// <summary>
         /// Generates the grid of tiles given a number of rows, columns and a string of numbers
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="columns"></param>
-        /// <param name="numbers"></param>
+        /// <param name="rows">The number of rows in the grid</param>
+        /// <param name="columns">The number of columns in the grid</param>
+        /// <param name="numbers">The string of numbers in order</param>
         private void generateGrid(int rows, int columns, string numbers)
         {
             foreach (Tile tile in tiles)
@@ -473,6 +472,12 @@ namespace DEppAssignment3
                 Controls.Add(tile);
             }
             allMoves = new List<char>();
+
+            winString = "";
+            for (int i = 1; i < num_rows * num_columns; i++)
+            {
+                winString += i + "_";
+            }
         }
     }
 }
