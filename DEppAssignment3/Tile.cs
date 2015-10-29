@@ -23,7 +23,14 @@ namespace DEppAssignment3
             get { return col; }
             set { col = value; }
         }
-        public Tile(int height, int width, int top, int left, string text, int row, int col, FifteenPuzzle game)
+        public Tile(int height, 
+            int width, 
+            int top, 
+            int left, 
+            string text, 
+            int row, 
+            int col, 
+            FifteenPuzzle game)
         {
             this.Height = height;
             this.Width = width;

@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.btnCheck = new System.Windows.Forms.Button();
             this.Solve = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnScramble = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -85,7 +83,6 @@
 
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.Button Solve;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnScramble;
     }
 }
