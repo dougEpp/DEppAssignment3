@@ -13,7 +13,7 @@ namespace DEppAssignment3
 {
     public partial class FifteenPuzzle : Form
     {
-        const int DEFAULT_NUM_COLUMNS = 5;
+        const int DEFAULT_NUM_COLUMNS = 4;
         const int DEFAULT_NUM_ROWS = 4;
         const int HEIGHT = 50;
         const int WIDTH = 50;
