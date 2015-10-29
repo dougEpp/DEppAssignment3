@@ -191,7 +191,6 @@ namespace DEppAssignment3
             Random rand = new Random();
             for (int i = 0; i < num; i++)
             {
-                //TODO: get rid of this magic number
                 int val = rand.Next(NUM_DIRECTIONS);
                 switch (val)
                 {
