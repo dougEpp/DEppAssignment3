@@ -13,8 +13,8 @@ namespace DEppAssignment3
 {
     public partial class FifteenPuzzle : Form
     {
-        const int DEFAULT_NUM_COLUMNS = 4;
-        const int DEFAULT_NUM_ROWS = 4;
+        const int DEFAULT_NUM_COLUMNS = 3;
+        const int DEFAULT_NUM_ROWS = 3;
         const int HEIGHT = 50;
         const int WIDTH = 50;
         const int TOP = 10;
@@ -26,7 +26,7 @@ namespace DEppAssignment3
         int num_rows;
         int num_columns;
         string winString;
-        List<string> allMoves;
+        List<char> allMoves;
         public FifteenPuzzle()
         {
             InitializeComponent();
@@ -57,7 +57,7 @@ namespace DEppAssignment3
             {
                 Controls.Add(tile);
             }
-            allMoves = new List<string>();
+            allMoves = new List<char>();
             int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
             scramble(numScramble);
         }
@@ -75,22 +75,22 @@ namespace DEppAssignment3
             if ((tile.Col != num_columns - 1) && (tiles[tile.Row, tile.Col + 1] == null))
             {
                 direction = 'r';
-                allMoves.Add("A");
+                allMoves.Add('A');
             }
             else if ((tile.Col != 0) && (tiles[tile.Row, tile.Col - 1] == null))
             {
                 direction = 'l';
-                allMoves.Add("D");
+                allMoves.Add('D');
             }
             else if ((tile.Row != num_rows - 1) && (tiles[tile.Row + 1, tile.Col] == null))
             {
                 direction = 'd';
-                allMoves.Add("W");
+                allMoves.Add('W');
             }
             else if ((tile.Row != 0) && (tiles[tile.Row - 1, tile.Col] == null))
             {
                 direction = 'u';
-                allMoves.Add("S");
+                allMoves.Add('S');
             }
             moveTile(tile, direction);
         }
@@ -198,25 +198,25 @@ namespace DEppAssignment3
                     case 0:
                         if (moveByButton("A", false))
                         {
-                            allMoves.Add("D");
+                            allMoves.Add('D');
                         }
                         break;
                     case 1:
                         if (moveByButton("S", false))
                         {
-                            allMoves.Add("W");
+                            allMoves.Add('W');
                         }
                         break;
                     case 2:
                         if (moveByButton("D", false))
                         {
-                            allMoves.Add("A");
+                            allMoves.Add('A');
                         }
                         break;
                     case 3:
                         if (moveByButton("W", false))
                         {
-                            allMoves.Add("S");
+                            allMoves.Add('S');
                         }
                         break;
                     default:
@@ -277,11 +277,11 @@ namespace DEppAssignment3
         private void solvePuzzle()
         {
             allMoves.Reverse();
-            foreach (var direction in allMoves)
+            foreach (char direction in allMoves)
             {
-                moveByButton(direction, true);
+                moveByButton(direction.ToString(), true);
             }
-            allMoves = new List<string>();
+            allMoves = new List<char>();
         }
         /// <summary>
         /// Moves the appropriate tile based on a key press
@@ -296,16 +296,16 @@ namespace DEppAssignment3
                 switch(key)
                 {
                     case "A":
-                        allMoves.Add("D");
+                        allMoves.Add('D');
                         break;
                     case "S":
-                        allMoves.Add("W");
+                        allMoves.Add('W');
                         break;
                     case "D":
-                        allMoves.Add("A");
+                        allMoves.Add('A');
                         break;
                     case "W":
-                        allMoves.Add("S");
+                        allMoves.Add('S');
                         break;
                     default: break;
                 }
