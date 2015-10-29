@@ -31,6 +31,10 @@
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnSolve = new System.Windows.Forms.Button();
             this.btnScramble = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.dlgSave = new System.Windows.Forms.SaveFileDialog();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -63,11 +67,42 @@
             this.btnScramble.UseVisualStyleBackColor = true;
             this.btnScramble.Click += new System.EventHandler(this.btnScramble_Click);
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(467, 288);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // dlgSave
+            // 
+            this.dlgSave.Filter = "Game File|*.gam|Text Files|*.txt";
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Location = new System.Drawing.Point(467, 317);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
+            this.btnLoad.TabIndex = 4;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // dlgOpen
+            // 
+            this.dlgOpen.FileName = "openFileDialog1";
+            this.dlgOpen.Filter = "Game Files|*.gam|Text Files|*.txt";
+            // 
             // FifteenPuzzle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 556);
+            this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnScramble);
             this.Controls.Add(this.btnSolve);
             this.Controls.Add(this.btnCheck);
@@ -84,6 +119,10 @@
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.Button btnSolve;
         private System.Windows.Forms.Button btnScramble;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.SaveFileDialog dlgSave;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.OpenFileDialog dlgOpen;
     }
 }
 

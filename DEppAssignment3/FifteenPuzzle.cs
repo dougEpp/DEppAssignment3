@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,28 +37,34 @@ namespace DEppAssignment3
 
             tiles = new Tile[num_rows, num_columns];
 
-            int x;
-            int y = TOP;
-            for (int i = 0; i < DEFAULT_NUM_ROWS; i++)
+            //int x;
+            //int y = TOP;
+            //for (int i = 0; i < num_rows; i++)
+            //{
+            //    x = LEFT;
+            //    for (int j = 0; j < num_columns; j++)
+            //    {
+            //        int num = num_columns * i + j + 1;
+            //        if (num != num_rows * num_columns)//leave bottom right square blank
+            //        {
+            //            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
+            //            winString += num.ToString() + "_";
+            //        }
+            //        x += WIDTH;
+            //    }
+            //    y += HEIGHT;
+            //}
+            //foreach (Tile tile in tiles)
+            //{
+            //    Controls.Add(tile);
+            //}
+            //allMoves = new List<char>();
+            for (int i = 1; i < num_rows * num_columns; i++)
             {
-                x = LEFT;
-                for (int j = 0; j < DEFAULT_NUM_COLUMNS; j++)
-                {
-                    int num = num_columns * i + j + 1;
-                    if (num != num_rows * num_columns)//leave bottom right square blank
-                    {
-                        tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
-                        winString += num.ToString() + "_";
-                    }
-                    x += WIDTH;
-                }
-                y += HEIGHT;
+                winString += i.ToString() + "_";
             }
-            foreach (Tile tile in tiles)
-            {
-                Controls.Add(tile);
-            }
-            allMoves = new List<char>();
+            winString += "-1";
+            generateGrid(num_rows, num_columns, winString);
 
             int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
 
@@ -266,7 +273,7 @@ namespace DEppAssignment3
                     order += item.Text + "_";
                 }
             }
-            if (order == winString && tiles[num_rows - 1, num_columns - 1] == null)
+            if (winString.Contains(order) && tiles[num_rows - 1, num_columns - 1] == null)
             {
                 MessageBox.Show("You Win!");
                 result = true;
@@ -333,6 +340,139 @@ namespace DEppAssignment3
         private void btnScramble_Click(object sender, EventArgs e)
         {
             scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            DialogResult r = dlgSave.ShowDialog();
+            switch (r)
+            {
+                case DialogResult.Abort:
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                case DialogResult.Ignore:
+                    break;
+                case DialogResult.No:
+                    break;
+                case DialogResult.None:
+                    break;
+                case DialogResult.OK:
+                    string fileName = dlgSave.FileName;
+                    doSave(fileName);
+                    break;
+                case DialogResult.Retry:
+                    break;
+                case DialogResult.Yes:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void doSave(string fileName)
+        {
+            StreamWriter writer = new StreamWriter(fileName);
+            writer.WriteLine(num_rows);
+            writer.WriteLine(num_columns);
+            for (int i = 0; i < num_rows; i++)
+            {
+                for (int j = 0; j < num_columns; j++)
+                {
+                    if (tiles[i, j] != null)
+                    {
+                        writer.WriteLine(tiles[i, j].Text);
+                    }
+                    else
+                    {
+                        writer.WriteLine("-1");
+                    }
+                }
+            }
+            writer.WriteLine(new string(allMoves.ToArray()));
+            writer.Close();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            DialogResult r = dlgOpen.ShowDialog();
+            switch (r)
+            {
+                case DialogResult.Abort:
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                case DialogResult.Ignore:
+                    break;
+                case DialogResult.No:
+                    break;
+                case DialogResult.None:
+                    break;
+                case DialogResult.OK:
+                    string filename = dlgOpen.FileName;
+                    doLoad(filename);
+                    break;
+                case DialogResult.Retry:
+                    break;
+                case DialogResult.Yes:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void doLoad(string filename)
+        {
+            StreamReader reader = new StreamReader(filename);
+            num_rows = int.Parse(reader.ReadLine());
+            num_columns = int.Parse(reader.ReadLine());
+            string gameString = "";
+
+            for (int i = 0; i < num_rows * num_columns; i++)
+            {
+                gameString += reader.ReadLine() + "_";
+            }
+            generateGrid(num_rows, num_columns, gameString);
+            allMoves = reader.ReadLine().ToList<char>();
+        }
+        /// <summary>
+        /// Generates the grid of tiles given a number of rows, columns and a string of numbers
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="numbers"></param>
+        private void generateGrid(int rows, int columns, string numbers)
+        {
+            foreach (Tile tile in tiles)
+            {
+                Controls.Remove(tile);
+            }
+            tiles = new Tile[rows, columns];
+
+            int x;
+            int y = TOP;
+            var allNumbers = numbers.Split(new char[] { '_' });
+            int counter = 0;
+            for (int i = 0; i < num_rows; i++)
+            {
+                x = LEFT;
+                for (int j = 0; j < num_columns; j++)
+                {
+                    int num = int.Parse(allNumbers[counter]);
+                    if (num > 0)//leave bottom right square blank
+                    {
+                        tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
+                    }
+                    counter++;
+                    x += WIDTH;
+                }
+                y += HEIGHT;
+            }
+            foreach (Tile tile in tiles)
+            {
+                Controls.Add(tile);
+            }
+            allMoves = new List<char>();
         }
     }
 }
