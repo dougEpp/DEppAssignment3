@@ -47,6 +47,7 @@ namespace DEppAssignment3
         public void Tile_Click(object sender, EventArgs e)
         {
             game.selectDirection(this);
+            game.checkWin();
         }
 
     }

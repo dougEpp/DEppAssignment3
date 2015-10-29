@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.btnCheck = new System.Windows.Forms.Button();
-            this.Solve = new System.Windows.Forms.Button();
+            this.btnSolve = new System.Windows.Forms.Button();
             this.btnScramble = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -43,15 +43,15 @@
             this.btnCheck.UseVisualStyleBackColor = true;
             this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
             // 
-            // Solve
+            // btnSolve
             // 
-            this.Solve.Location = new System.Drawing.Point(467, 154);
-            this.Solve.Name = "Solve";
-            this.Solve.Size = new System.Drawing.Size(75, 23);
-            this.Solve.TabIndex = 1;
-            this.Solve.Text = "btnSolve";
-            this.Solve.UseVisualStyleBackColor = true;
-            this.Solve.Click += new System.EventHandler(this.Solve_Click);
+            this.btnSolve.Location = new System.Drawing.Point(467, 154);
+            this.btnSolve.Name = "btnSolve";
+            this.btnSolve.Size = new System.Drawing.Size(75, 23);
+            this.btnSolve.TabIndex = 1;
+            this.btnSolve.Text = "Solve";
+            this.btnSolve.UseVisualStyleBackColor = true;
+            this.btnSolve.Click += new System.EventHandler(this.Solve_Click);
             // 
             // btnScramble
             // 
@@ -69,7 +69,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 556);
             this.Controls.Add(this.btnScramble);
-            this.Controls.Add(this.Solve);
+            this.Controls.Add(this.btnSolve);
             this.Controls.Add(this.btnCheck);
             this.KeyPreview = true;
             this.Name = "FifteenPuzzle";
@@ -82,7 +82,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnCheck;
-        private System.Windows.Forms.Button Solve;
+        private System.Windows.Forms.Button btnSolve;
         private System.Windows.Forms.Button btnScramble;
     }
 }
