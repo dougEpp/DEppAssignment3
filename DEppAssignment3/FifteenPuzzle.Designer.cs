@@ -47,8 +47,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 556);
             this.Controls.Add(this.btnCheck);
+            this.KeyPreview = true;
             this.Name = "FifteenPuzzle";
             this.Text = "Form1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FifteenPuzzle_KeyDown);
             this.ResumeLayout(false);
 
         }
