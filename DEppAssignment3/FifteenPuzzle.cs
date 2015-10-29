@@ -13,13 +13,13 @@ namespace DEppAssignment3
 {
     public partial class FifteenPuzzle : Form
     {
-        const int DEFAULT_NUM_COLUMNS = 4;
+        const int DEFAULT_NUM_COLUMNS = 5;
         const int DEFAULT_NUM_ROWS = 4;
         const int HEIGHT = 50;
         const int WIDTH = 50;
         const int TOP = 10;
         const int LEFT = 10;
-        const int NUM_SCRAMBLE = 100;
+        const int SCRAMBLE_FACTOR = 10;
         const int NUM_DIRECTIONS = 4;
 
         Tile[,] tiles;
@@ -43,8 +43,8 @@ namespace DEppAssignment3
                 x = LEFT;
                 for (int j = 0; j < DEFAULT_NUM_COLUMNS; j++)
                 {
-                    int num = num_rows * i + j + 1;
-                    if (num != num_rows * num_columns)
+                    int num = num_columns * i + j + 1;
+                    if (num != num_rows * num_columns)//leave bottom right square blank
                     {
                         tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
                         winString += num.ToString() + "_";
@@ -58,7 +58,8 @@ namespace DEppAssignment3
                 Controls.Add(tile);
             }
             allMoves = new List<string>();
-            scramble(NUM_SCRAMBLE);
+            int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
+            scramble(numScramble);
         }
         /// <summary>
         /// Selects the direction to move the clicked tile
@@ -328,7 +329,7 @@ namespace DEppAssignment3
         /// <param name="e">Event arguments for the click event</param>
         private void btnScramble_Click(object sender, EventArgs e)
         {
-            scramble(NUM_SCRAMBLE);
+            scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
         }
     }
 }
