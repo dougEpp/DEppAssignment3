@@ -58,7 +58,9 @@ namespace DEppAssignment3
                 Controls.Add(tile);
             }
             allMoves = new List<char>();
+
             int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
+
             scramble(numScramble);
         }
         /// <summary>
@@ -105,7 +107,7 @@ namespace DEppAssignment3
             int emptyTileRow = findEmptyTile()[0];
             int emptyTileCol = findEmptyTile()[1];
 
-            if(showMoves)
+            if (showMoves)
             {
                 Thread.Sleep(100);
             }
@@ -268,6 +270,7 @@ namespace DEppAssignment3
             {
                 MessageBox.Show("You Win!");
                 result = true;
+                allMoves = new List<char>();
             }
             return result;
         }
@@ -293,7 +296,7 @@ namespace DEppAssignment3
             string key = e.KeyCode.ToString();
             if (moveByButton(key, false))
             {
-                switch(key)
+                switch (key)
                 {
                     case "A":
                         allMoves.Add('D');
