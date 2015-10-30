@@ -37,7 +37,7 @@ namespace DEppAssignment3
         const int WIDTH = 65;
         const int TOP = 75;
         const int LEFT = 10;
-        const int SCRAMBLE_FACTOR = 10;
+        const int SCRAMBLE_FACTOR = 5;
         const int NUM_DIRECTIONS = 4;
 
         Tile[,] tiles;
@@ -276,7 +276,7 @@ namespace DEppAssignment3
                         default: break;
                     }
                     checkWin();
-                } 
+                }
             }
         }
         /// <summary>
@@ -507,12 +507,21 @@ namespace DEppAssignment3
                 winString += i + "_";
             }
         }
+        /// <summary>
+        /// Generates the grid based on user input rows and columns
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             try
             {
                 num_rows = int.Parse(txtRows.Text);
                 num_columns = int.Parse(txtColumns.Text);
+                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
 
                 foreach (Tile tile in tiles)
                 {
@@ -534,7 +543,11 @@ namespace DEppAssignment3
                 scramble(numScramble);
                 this.Focus();
             }
-            catch (Exception ex)
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Rows and columns must be between 2-7");
+            }
+            catch (Exception)
             {
                 MessageBox.Show("Please enter a number of rows and a number of columns.");
             }

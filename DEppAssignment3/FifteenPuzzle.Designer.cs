@@ -86,6 +86,7 @@
             // 
             this.dlgSave.FileName = "Game";
             this.dlgSave.Filter = "Game File|*.gam|Text Files|*.txt";
+            this.dlgSave.InitialDirectory = "C:";
             // 
             // btnLoad
             // 
@@ -99,8 +100,9 @@
             // 
             // dlgOpen
             // 
-            this.dlgOpen.FileName = "Game";
+            this.dlgOpen.FileName = "Game.gam";
             this.dlgOpen.Filter = "Game Files|*.gam|Text Files|*.txt";
+            this.dlgOpen.InitialDirectory = "C:";
             // 
             // txtRows
             // 
@@ -108,6 +110,7 @@
             this.txtRows.Name = "txtRows";
             this.txtRows.Size = new System.Drawing.Size(100, 20);
             this.txtRows.TabIndex = 5;
+            this.txtRows.Text = "4";
             // 
             // txtColumns
             // 
@@ -115,6 +118,7 @@
             this.txtColumns.Name = "txtColumns";
             this.txtColumns.Size = new System.Drawing.Size(100, 20);
             this.txtColumns.TabIndex = 6;
+            this.txtColumns.Text = "4";
             // 
             // lblRows
             // 
@@ -161,7 +165,7 @@
             this.Controls.Add(this.btnCheck);
             this.KeyPreview = true;
             this.Name = "FifteenPuzzle";
-            this.Text = "Form1";
+            this.Text = "N-Puzzle";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FifteenPuzzle_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
