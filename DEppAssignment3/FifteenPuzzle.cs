@@ -10,7 +10,7 @@
  *              Added saving and loading
  *              Added comments and cleaned up code
  *               - Doug Epp
- */ 
+ */
 
 using System;
 using System.Collections.Generic;
@@ -254,27 +254,30 @@ namespace DEppAssignment3
         /// <param name="e">Event arguments for the key press event</param>
         private void FifteenPuzzle_KeyDown(object sender, KeyEventArgs e)
         {
-            string key = e.KeyCode.ToString();
-            if (moveByDirection(key, false))
+            if (!txtRows.ContainsFocus && !txtColumns.ContainsFocus)
             {
-                switch (key)
+                string key = e.KeyCode.ToString();
+                if (moveByDirection(key, false))
                 {
-                    case "S":
-                        allMoves.Add('W');
-                        break;
-                    case "A":
-                        allMoves.Add('D');
-                        break;
-                    case "D":
-                        allMoves.Add('A');
-                        break;
-                    case "W":
-                        allMoves.Add('S');
-                        break;
-                    default: break;
-                }
+                    switch (key)
+                    {
+                        case "S":
+                            allMoves.Add('W');
+                            break;
+                        case "A":
+                            allMoves.Add('D');
+                            break;
+                        case "D":
+                            allMoves.Add('A');
+                            break;
+                        case "W":
+                            allMoves.Add('S');
+                            break;
+                        default: break;
+                    }
+                    checkWin();
+                } 
             }
-            checkWin();
         }
         /// <summary>
         /// Scrambles the tiles
@@ -504,10 +507,37 @@ namespace DEppAssignment3
                 winString += i + "_";
             }
         }
-
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            try
+            {
+                num_rows = int.Parse(txtRows.Text);
+                num_columns = int.Parse(txtColumns.Text);
 
+                foreach (Tile tile in tiles)
+                {
+                    Controls.Remove(tile);
+                }
+                tiles = new Tile[num_rows, num_columns];
+
+                string defaultOrder = "";
+                for (int i = 1; i < num_rows * num_columns; i++)
+                {
+                    defaultOrder += i.ToString() + "_";
+                }
+                defaultOrder += "-1";
+
+                generateGrid(num_rows, num_columns, defaultOrder);
+
+                int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
+
+                scramble(numScramble);
+                this.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please enter a number of rows and a number of columns.");
+            }
         }
     }
 }
