@@ -46,7 +46,11 @@ namespace DEppAssignment3
             this.col = col;
             this.game = game;
         }
-
+        /// <summary>
+        /// Moves the clicked tile in the appropriate direction and checks if the game is won
+        /// </summary>
+        /// <param name="sender">The tile that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
         public void Tile_Click(object sender, EventArgs e)
         {
             game.selectDirection(this);

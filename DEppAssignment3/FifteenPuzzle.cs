@@ -1,4 +1,5 @@
-﻿/* DEppAssignment3.cs
+﻿/* DEppAssignment3
+ * FifteenPuzzle.cs
  * A simple 15-puzzle game, including scrambling, solving, saving and loading
  * 
  * 2015-10-16 : Created game form and tile class
