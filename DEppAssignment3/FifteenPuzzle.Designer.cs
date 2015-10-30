@@ -35,6 +35,11 @@
             this.dlgSave = new System.Windows.Forms.SaveFileDialog();
             this.btnLoad = new System.Windows.Forms.Button();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
+            this.txtRows = new System.Windows.Forms.TextBox();
+            this.txtColumns = new System.Windows.Forms.TextBox();
+            this.lblRows = new System.Windows.Forms.Label();
+            this.lblColumns = new System.Windows.Forms.Label();
+            this.btnGenerate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -97,11 +102,58 @@
             this.dlgOpen.FileName = "Game";
             this.dlgOpen.Filter = "Game Files|*.gam|Text Files|*.txt";
             // 
+            // txtRows
+            // 
+            this.txtRows.Location = new System.Drawing.Point(112, 12);
+            this.txtRows.Name = "txtRows";
+            this.txtRows.Size = new System.Drawing.Size(100, 20);
+            this.txtRows.TabIndex = 5;
+            // 
+            // txtColumns
+            // 
+            this.txtColumns.Location = new System.Drawing.Point(112, 38);
+            this.txtColumns.Name = "txtColumns";
+            this.txtColumns.Size = new System.Drawing.Size(100, 20);
+            this.txtColumns.TabIndex = 6;
+            // 
+            // lblRows
+            // 
+            this.lblRows.AutoSize = true;
+            this.lblRows.Location = new System.Drawing.Point(71, 19);
+            this.lblRows.Name = "lblRows";
+            this.lblRows.Size = new System.Drawing.Size(34, 13);
+            this.lblRows.TabIndex = 7;
+            this.lblRows.Text = "Rows";
+            // 
+            // lblColumns
+            // 
+            this.lblColumns.AutoSize = true;
+            this.lblColumns.Location = new System.Drawing.Point(58, 41);
+            this.lblColumns.Name = "lblColumns";
+            this.lblColumns.Size = new System.Drawing.Size(47, 13);
+            this.lblColumns.TabIndex = 8;
+            this.lblColumns.Text = "Columns";
+            // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Location = new System.Drawing.Point(467, 34);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerate.TabIndex = 9;
+            this.btnGenerate.Text = "Generate Grid";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
             // FifteenPuzzle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 556);
+            this.Controls.Add(this.btnGenerate);
+            this.Controls.Add(this.lblColumns);
+            this.Controls.Add(this.lblRows);
+            this.Controls.Add(this.txtColumns);
+            this.Controls.Add(this.txtRows);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnScramble);
@@ -112,6 +164,7 @@
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FifteenPuzzle_KeyDown);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -124,6 +177,11 @@
         private System.Windows.Forms.SaveFileDialog dlgSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.OpenFileDialog dlgOpen;
+        private System.Windows.Forms.TextBox txtRows;
+        private System.Windows.Forms.TextBox txtColumns;
+        private System.Windows.Forms.Label lblRows;
+        private System.Windows.Forms.Label lblColumns;
+        private System.Windows.Forms.Button btnGenerate;
     }
 }
 

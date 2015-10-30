@@ -1,5 +1,15 @@
 ﻿/* DEppAssignment3.cs
+ * A simple 15-puzzle game, including scrambling, solving, saving and loading
  * 
+ * 2015-10-16 : Created game form and tile class
+ *               - Doug Epp
+ * 2015-10-28 : Added tile movement and win checking
+ *              Added hotkeys, scrambling and solving
+ *               - Doug Epp
+ * 2015-10-29 : Fixed bugs and added comments
+ *              Added saving and loading
+ *              Added comments and cleaned up code
+ *               - Doug Epp
  */ 
 
 using System;
@@ -25,7 +35,7 @@ namespace DEppAssignment3
         const int DEFAULT_NUM_ROWS = 4;
         const int HEIGHT = 65;
         const int WIDTH = 65;
-        const int TOP = 10;
+        const int TOP = 75;
         const int LEFT = 10;
         const int SCRAMBLE_FACTOR = 10;
         const int NUM_DIRECTIONS = 4;
@@ -493,6 +503,11 @@ namespace DEppAssignment3
             {
                 winString += i + "_";
             }
+        }
+
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
