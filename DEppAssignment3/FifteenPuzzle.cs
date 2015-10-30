@@ -232,11 +232,11 @@ namespace DEppAssignment3
         {
             bool result = false;
             string order = "";
-            foreach (var item in tiles)
+            foreach (Tile tile in tiles)
             {
-                if (item != null)
+                if (tile != null)
                 {
-                    order += item.Text + "_";
+                    order += tile.Text + "_";
                 }
             }
             if (order == winString && tiles[num_rows - 1, num_columns - 1] == null)
@@ -373,7 +373,7 @@ namespace DEppAssignment3
                     break;
                 case DialogResult.OK:
                     string fileName = dlgSave.FileName;
-                    doSave(fileName);
+                    saveGame(fileName);
                     break;
                 case DialogResult.Retry:
                     break;
@@ -387,7 +387,7 @@ namespace DEppAssignment3
         /// Saves the current game
         /// </summary>
         /// <param name="fileName">The file to save the game to</param>
-        private void doSave(string fileName)
+        private void saveGame(string fileName)
         {
             StreamWriter writer = new StreamWriter(fileName);
             writer.WriteLine(num_rows);
@@ -432,7 +432,7 @@ namespace DEppAssignment3
                     break;
                 case DialogResult.OK:
                     string filename = dlgOpen.FileName;
-                    doLoad(filename);
+                    loadGame(filename);
                     break;
                 case DialogResult.Retry:
                     break;
@@ -446,7 +446,7 @@ namespace DEppAssignment3
         /// Loads the selected saved game
         /// </summary>
         /// <param name="filename">The filename of the saved game</param>
-        private void doLoad(string filename)
+        private void loadGame(string filename)
         {
             StreamReader reader = new StreamReader(filename);
             num_rows = int.Parse(reader.ReadLine());
@@ -478,7 +478,7 @@ namespace DEppAssignment3
 
             int x;
             int y = TOP;
-            var allNumbers = numbers.Split(new char[] { '_' });
+            string[] allNumbers = numbers.Split(new char[] { '_' });
             int counter = 0;
             for (int i = 0; i < num_rows; i++)
             {
