@@ -11,6 +11,9 @@
  *              Added saving and loading
  *              Added comments and cleaned up code
  *               - Doug Epp
+ * 2015-10-30 : Added custom row and columns
+ *              A
+ *               - Doug Epp
  */
 
 using System;
@@ -32,6 +35,7 @@ namespace DEppAssignment3
     /// </summary>
     public partial class FifteenPuzzle : Form
     {
+        //Global constants
         const int DEFAULT_NUM_COLUMNS = 4;
         const int DEFAULT_NUM_ROWS = 4;
         const int HEIGHT = 65;
@@ -41,11 +45,24 @@ namespace DEppAssignment3
         const int SCRAMBLE_FACTOR = 5;
         const int NUM_DIRECTIONS = 4;
 
+        //Global variable declaration
         Tile[,] tiles;
         int num_rows;
         int num_columns;
+        public int Num_rows
+        {
+            get { return num_rows; }
+            set { num_rows = value; }
+        }
+        public int Num_columns
+        {
+            get { return num_columns; }
+            set { num_columns = value; }
+        }
         string winString;
         List<char> allMoves;
+        bool usingPicture;
+
         /// <summary>
         /// Initializes the game with a new, scrambled grid of tiles
         /// </summary>
@@ -64,11 +81,10 @@ namespace DEppAssignment3
                 defaultOrder += i.ToString() + "_";
             }
             defaultOrder += "-1";
-
+            usingPicture = false;
             generateGrid(num_rows, num_columns, defaultOrder);
 
             int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
-
             scramble(numScramble);
         }
         /// <summary>
@@ -353,6 +369,131 @@ namespace DEppAssignment3
             allMoves = new List<char>();
         }
         /// <summary>
+        /// Generates the grid of tiles given a number of rows, columns and a string of numbers
+        /// </summary>
+        /// <param name="rows">The number of rows in the grid</param>
+        /// <param name="columns">The number of columns in the grid</param>
+        /// <param name="numbers">The string of numbers in order</param>
+        private void generateGrid(int rows, int columns, string numbers)
+        {
+            foreach (Tile tile in tiles)
+            {
+                Controls.Remove(tile);
+            }
+            tiles = new Tile[rows, columns];
+
+            int x;
+            int y = TOP;
+            string[] allNumbers = numbers.Split(new char[] { '_' });
+
+            int counter = 0;
+            for (int i = 0; i < num_rows; i++)
+            {
+                x = LEFT;
+                for (int j = 0; j < num_columns; j++)
+                {
+                    int num = int.Parse(allNumbers[counter]);
+                    if (num > 0) //Square should be blank
+                    {
+                        if (usingPicture) //generate a grid using a picture
+                        {
+                            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, true, this);
+                        }
+                        else //generate a grid using numbers
+                        {
+                            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
+                        }
+                    }
+                    counter++;
+                    x += WIDTH;
+                }
+                y += HEIGHT;
+            }
+            foreach (Tile tile in tiles)
+            {
+                Controls.Add(tile);
+            }
+
+            allMoves = new List<char>();
+
+            winString = "";
+            for (int i = 1; i < num_rows * num_columns; i++)
+            {
+                winString += i + "_";
+            }
+        }
+
+        /// <summary>
+        /// Generates the grid based on user input rows and columns
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                num_rows = int.Parse(txtRows.Text);
+                num_columns = int.Parse(txtColumns.Text);
+                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                usingPicture = false;
+
+                string defaultOrder = "";
+                for (int i = 1; i < num_rows * num_columns; i++)
+                {
+                    defaultOrder += i.ToString() + "_";
+                }
+                defaultOrder += "-1";
+
+                generateGrid(num_rows, num_columns, defaultOrder);
+
+                int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
+
+                scramble(numScramble);
+                this.Focus();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Rows and columns must be between 2-7");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please enter a number of rows and a number of columns.");
+            }
+        }
+        /// <summary>
+        /// Generates the grid using a picture
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments for the click event</param>
+        private void btnUsePicture_Click(object sender, EventArgs e)
+        {
+            num_rows = DEFAULT_NUM_ROWS;
+            num_columns = DEFAULT_NUM_COLUMNS;
+
+            txtRows.Text = num_rows.ToString();
+            txtColumns.Text = num_columns.ToString();
+            usingPicture = true;
+
+            string defaultOrder = "";
+            for (int i = 1; i < num_rows * num_columns; i++)
+            {
+                defaultOrder += i.ToString() + "_";
+            }
+            defaultOrder += "-1";
+
+            generateGrid(num_rows, num_columns, defaultOrder);
+            //Show the picture for 1.5 seconds before scrambling
+            this.Refresh();
+            Thread.Sleep(1000);
+
+            //scramble the picture puzzle
+            int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
+            scramble(numScramble);
+        }
+        /// <summary>
         /// Saves the game on a button click
         /// </summary>
         /// <param name="sender">The button that was clicked</param>
@@ -391,6 +532,7 @@ namespace DEppAssignment3
         private void saveGame(string fileName)
         {
             StreamWriter writer = new StreamWriter(fileName);
+            writer.WriteLine(usingPicture.ToString());
             writer.WriteLine(num_rows);
             writer.WriteLine(num_columns);
 
@@ -450,6 +592,7 @@ namespace DEppAssignment3
         private void loadGame(string filename)
         {
             StreamReader reader = new StreamReader(filename);
+            usingPicture = bool.Parse(reader.ReadLine());
             num_rows = int.Parse(reader.ReadLine());
             num_columns = int.Parse(reader.ReadLine());
             string gameString = "";
@@ -458,100 +601,12 @@ namespace DEppAssignment3
             {
                 gameString += reader.ReadLine() + "_";
             }
+
             generateGrid(num_rows, num_columns, gameString);
             allMoves = reader.ReadLine().ToList<char>();
 
+
             reader.Close();
-        }
-        /// <summary>
-        /// Generates the grid of tiles given a number of rows, columns and a string of numbers
-        /// </summary>
-        /// <param name="rows">The number of rows in the grid</param>
-        /// <param name="columns">The number of columns in the grid</param>
-        /// <param name="numbers">The string of numbers in order</param>
-        private void generateGrid(int rows, int columns, string numbers)
-        {
-            foreach (Tile tile in tiles)
-            {
-                Controls.Remove(tile);
-            }
-            tiles = new Tile[rows, columns];
-
-            int x;
-            int y = TOP;
-            string[] allNumbers = numbers.Split(new char[] { '_' });
-            int counter = 0;
-            for (int i = 0; i < num_rows; i++)
-            {
-                x = LEFT;
-                for (int j = 0; j < num_columns; j++)
-                {
-                    int num = int.Parse(allNumbers[counter]);
-                    if (num > 0)//leave bottom right square blank
-                    {
-                        tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
-                    }
-                    counter++;
-                    x += WIDTH;
-                }
-                y += HEIGHT;
-            }
-            foreach (Tile tile in tiles)
-            {
-                Controls.Add(tile);
-            }
-            allMoves = new List<char>();
-
-            winString = "";
-            for (int i = 1; i < num_rows * num_columns; i++)
-            {
-                winString += i + "_";
-            }
-        }
-        /// <summary>
-        /// Generates the grid based on user input rows and columns
-        /// </summary>
-        /// <param name="sender">The button that was clicked</param>
-        /// <param name="e">Event arguments for the click event</param>
-        private void btnGenerate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                num_rows = int.Parse(txtRows.Text);
-                num_columns = int.Parse(txtColumns.Text);
-                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                foreach (Tile tile in tiles)
-                {
-                    Controls.Remove(tile);
-                }
-                tiles = new Tile[num_rows, num_columns];
-
-                string defaultOrder = "";
-                for (int i = 1; i < num_rows * num_columns; i++)
-                {
-                    defaultOrder += i.ToString() + "_";
-                }
-                defaultOrder += "-1";
-
-                generateGrid(num_rows, num_columns, defaultOrder);
-
-                int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
-
-                scramble(numScramble);
-                this.Focus();
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                MessageBox.Show("Rows and columns must be between 2-7");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Please enter a number of rows and a number of columns.");
-            }
         }
     }
 }

@@ -40,6 +40,7 @@
             this.lblRows = new System.Windows.Forms.Label();
             this.lblColumns = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
+            this.btnUsePicture = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -140,7 +141,7 @@
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(467, 34);
+            this.btnGenerate.Location = new System.Drawing.Point(467, 14);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(75, 23);
             this.btnGenerate.TabIndex = 9;
@@ -148,11 +149,22 @@
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
+            // btnUsePicture
+            // 
+            this.btnUsePicture.Location = new System.Drawing.Point(467, 43);
+            this.btnUsePicture.Name = "btnUsePicture";
+            this.btnUsePicture.Size = new System.Drawing.Size(75, 23);
+            this.btnUsePicture.TabIndex = 10;
+            this.btnUsePicture.Text = "Use Picture";
+            this.btnUsePicture.UseVisualStyleBackColor = true;
+            this.btnUsePicture.Click += new System.EventHandler(this.btnUsePicture_Click);
+            // 
             // FifteenPuzzle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 556);
+            this.Controls.Add(this.btnUsePicture);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.lblColumns);
             this.Controls.Add(this.lblRows);
@@ -186,6 +198,7 @@
         private System.Windows.Forms.Label lblRows;
         private System.Windows.Forms.Label lblColumns;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.Button btnUsePicture;
     }
 }
 
