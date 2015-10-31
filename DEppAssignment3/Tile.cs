@@ -88,14 +88,14 @@ namespace DEppAssignment3
             this.ForeColor = Color.Transparent;
             this.Click += Tile_Click;
 
-            Bitmap b = new Bitmap(Properties.Resources.flowers);
-
+            Bitmap b = new Bitmap(Properties.Resources.flowers,new Size(width *game.Num_rows, width * game.Num_columns));
+            
             //get correct row and column based on square's number
-            int x = (int.Parse(text) - 1) % game.Num_columns * 65;
-            int y = int.Parse(text) / game.Num_columns * 65;
+            int x = (int.Parse(text) - 1) % game.Num_columns * width;
+            int y = (int.Parse(text) -1) / game.Num_columns * height;
 
             //crop button's image to correct portion of original image
-            Rectangle r = new Rectangle(x, y, 65, 65);
+            Rectangle r = new Rectangle(x, y, width, height);
             Bitmap b1 = b.Clone(r, b.PixelFormat);
             this.Image = b1;
 

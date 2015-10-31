@@ -38,8 +38,8 @@ namespace DEppAssignment3
         //Global constants
         const int DEFAULT_NUM_COLUMNS = 4;
         const int DEFAULT_NUM_ROWS = 4;
-        const int HEIGHT = 65;
-        const int WIDTH = 65;
+        const int GAME_HEIGHT = 430;
+        const int GAME_WIDTH = 430;
         const int TOP = 75;
         const int LEFT = 10;
         const int SCRAMBLE_FACTOR = 5;
@@ -84,8 +84,7 @@ namespace DEppAssignment3
             usingPicture = false;
             generateGrid(num_rows, num_columns, defaultOrder);
 
-            int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
-            scramble(numScramble);
+            scramble();
         }
         /// <summary>
         /// Selects the direction to move the clicked tile
@@ -303,16 +302,17 @@ namespace DEppAssignment3
         /// <param name="e">Event arguments for the click event</param>
         private void btnScramble_Click(object sender, EventArgs e)
         {
-            scramble(num_rows * num_columns * SCRAMBLE_FACTOR);
+            scramble();
         }
         /// <summary>
-        /// scrambles the tiles a specified number of times
+        /// scrambles the tiles
         /// </summary>
-        /// <param name="num">the number of times to scramble the tiles</param>
-        public void scramble(int num)
+        public void scramble()
         {
+            //scramble larger grids more times
+            int timesToSCramble = num_rows * num_columns * SCRAMBLE_FACTOR;
             Random rand = new Random();
-            for (int i = 0; i < num; i++)
+            for (int i = 0; i < timesToSCramble; i++)
             {
                 int val = rand.Next(NUM_DIRECTIONS);
                 switch (val)
@@ -384,6 +384,8 @@ namespace DEppAssignment3
 
             int x;
             int y = TOP;
+            int height = GAME_HEIGHT / num_rows;
+            int width = GAME_WIDTH / num_columns;
             string[] allNumbers = numbers.Split(new char[] { '_' });
 
             int counter = 0;
@@ -397,17 +399,17 @@ namespace DEppAssignment3
                     {
                         if (usingPicture) //generate a grid using a picture
                         {
-                            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, true, this);
+                            tiles[i, j] = new Tile(height, width, y, x, num.ToString(), i, j, true, this);
                         }
                         else //generate a grid using numbers
                         {
-                            tiles[i, j] = new Tile(HEIGHT, WIDTH, y, x, num.ToString(), i, j, this);
+                            tiles[i, j] = new Tile(height, width, y, x, num.ToString(), i, j, this);
                         }
                     }
                     counter++;
-                    x += WIDTH;
+                    x += width;
                 }
-                y += HEIGHT;
+                y += height;
             }
             foreach (Tile tile in tiles)
             {
@@ -449,14 +451,12 @@ namespace DEppAssignment3
 
                 generateGrid(num_rows, num_columns, defaultOrder);
 
-                int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
-
-                scramble(numScramble);
+                scramble();
                 this.Focus();
             }
             catch (ArgumentOutOfRangeException)
             {
-                MessageBox.Show("Rows and columns must be between 2-7");
+                MessageBox.Show("Rows and columns must be between 2 and 7.");
             }
             catch (Exception)
             {
@@ -470,28 +470,51 @@ namespace DEppAssignment3
         /// <param name="e">Event arguments for the click event</param>
         private void btnUsePicture_Click(object sender, EventArgs e)
         {
-            num_rows = DEFAULT_NUM_ROWS;
-            num_columns = DEFAULT_NUM_COLUMNS;
-
-            txtRows.Text = num_rows.ToString();
-            txtColumns.Text = num_columns.ToString();
-            usingPicture = true;
-
-            string defaultOrder = "";
-            for (int i = 1; i < num_rows * num_columns; i++)
+            try
             {
-                defaultOrder += i.ToString() + "_";
+                num_rows = int.Parse(txtRows.Text);
+                num_columns = int.Parse(txtColumns.Text);
+
+                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                if (num_rows != num_columns)
+                {
+                    throw new ArgumentException();
+                }
+
+                txtRows.Text = num_rows.ToString();
+                txtColumns.Text = num_columns.ToString();
+                usingPicture = true;
+
+                string defaultOrder = "";
+                for (int i = 1; i < num_rows * num_columns; i++)
+                {
+                    defaultOrder += i.ToString() + "_";
+                }
+                defaultOrder += "-1";
+
+                generateGrid(num_rows, num_columns, defaultOrder);
+                //Show the picture for 1.5 seconds before scrambling
+                this.Refresh();
+                Thread.Sleep(1000);
+
+                //scramble the picture puzzle
+                scramble();
             }
-            defaultOrder += "-1";
-
-            generateGrid(num_rows, num_columns, defaultOrder);
-            //Show the picture for 1.5 seconds before scrambling
-            this.Refresh();
-            Thread.Sleep(1000);
-
-            //scramble the picture puzzle
-            int numScramble = num_rows * num_columns * SCRAMBLE_FACTOR;
-            scramble(numScramble);
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Rows and Columns must be between 2 and 7.");
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("To use a picture, number of rows must equal number of columns.");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please enter a number of rows and a number of columns.");
+            }
         }
         /// <summary>
         /// Saves the game on a button click
