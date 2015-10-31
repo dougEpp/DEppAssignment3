@@ -457,10 +457,12 @@ namespace DEppAssignment3
             catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Rows and columns must be between 2 and 7.");
+                txtRows.Focus();
             }
             catch (Exception)
             {
                 MessageBox.Show("Please enter a number of rows and a number of columns.");
+                txtRows.Focus();
             }
         }
         /// <summary>
@@ -506,14 +508,17 @@ namespace DEppAssignment3
             catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Rows and Columns must be between 2 and 7.");
+                txtRows.Focus();
             }
             catch (ArgumentException)
             {
                 MessageBox.Show("To use a picture, number of rows must equal number of columns.");
+                txtRows.Focus();
             }
             catch (Exception)
             {
                 MessageBox.Show("Please enter a number of rows and a number of columns.");
+                txtRows.Focus();
             }
         }
         /// <summary>
