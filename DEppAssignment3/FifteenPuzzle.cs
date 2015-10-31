@@ -12,7 +12,10 @@
  *              Added comments and cleaned up code
  *               - Doug Epp
  * 2015-10-30 : Added custom row and columns
- *              A
+ *              Added the ability to play with a picture
+ *               - Doug Epp
+ * 2015-10-31 : Fixed bugs, tweaked comments
+ *              Finished game
  *               - Doug Epp
  */
 
