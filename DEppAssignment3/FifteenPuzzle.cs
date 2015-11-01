@@ -263,6 +263,9 @@ namespace DEppAssignment3
                 MessageBox.Show("You Win!");
                 result = true;
                 allMoves = new List<char>();
+                //wait 1 second then scramble tiles again
+                Thread.Sleep(1000);
+                scramble();
             }
             return result;
         }
