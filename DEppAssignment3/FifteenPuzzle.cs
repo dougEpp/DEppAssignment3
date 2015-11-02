@@ -484,17 +484,20 @@ namespace DEppAssignment3
         {
             try
             {
-                num_rows = int.Parse(txtRows.Text);
-                num_columns = int.Parse(txtColumns.Text);
+                int rowsInput = int.Parse(txtRows.Text);
+                int columnsInput = int.Parse(txtColumns.Text);
 
-                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
+                if (rowsInput > 7 || columnsInput > 7 || rowsInput < 2 || columnsInput < 2)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
-                if (num_rows != num_columns)
+                if (rowsInput != columnsInput)
                 {
                     throw new ArgumentException();
                 }
+                num_rows = rowsInput;
+                num_columns = columnsInput;
+
 
                 txtRows.Text = num_rows.ToString();
                 txtColumns.Text = num_columns.ToString();
