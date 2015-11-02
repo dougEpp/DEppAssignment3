@@ -487,7 +487,7 @@ namespace DEppAssignment3
                 int rowsInput = int.Parse(txtRows.Text);
                 int columnsInput = int.Parse(txtColumns.Text);
 
-                if (rowsInput > 7 || columnsInput > 7 || rowsInput < 2 || columnsInput < 2)
+                if (rowsInput > MAX_ROWS || columnsInput > MAX_ROWS || rowsInput < MIN_ROWS || columnsInput < MIN_ROWS)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -511,7 +511,7 @@ namespace DEppAssignment3
                 defaultOrder += "-1";
 
                 generateGrid(num_rows, num_columns, defaultOrder);
-                //Show the picture for 1.5 seconds before scrambling
+                //Show the picture for 1 second before scrambling
                 this.Refresh();
                 Thread.Sleep(1000);
 
@@ -520,7 +520,7 @@ namespace DEppAssignment3
             }
             catch (ArgumentOutOfRangeException)
             {
-                MessageBox.Show("Rows and Columns must be between 2 and 7.");
+                MessageBox.Show("Rows and Columns must be between " + MIN_ROWS + " and " + MAX_ROWS + ".");
                 txtRows.Focus();
             }
             catch (ArgumentException)
@@ -591,6 +591,7 @@ namespace DEppAssignment3
                     }
                 }
             }
+            //save the moves that have been made so far
             writer.WriteLine(new string(allMoves.ToArray()));
             writer.Close();
         }
@@ -644,8 +645,8 @@ namespace DEppAssignment3
             }
 
             generateGrid(num_rows, num_columns, gameString);
+            //get list of moves that have been made int the saved game
             allMoves = reader.ReadLine().ToList<char>();
-
 
             reader.Close();
         }
