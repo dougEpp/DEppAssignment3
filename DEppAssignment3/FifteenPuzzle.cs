@@ -41,6 +41,10 @@ namespace DEppAssignment3
         //Global constants
         const int DEFAULT_NUM_COLUMNS = 4;
         const int DEFAULT_NUM_ROWS = 4;
+        const int MAX_ROWS = 7;
+        const int MIN_COLUMNS = 2;
+        const int MIN_ROWS = 2;
+        const int MAX_COLUMNS = 7;
         const int GAME_HEIGHT = 430;
         const int GAME_WIDTH = 430;
         const int TOP = 75;
@@ -442,7 +446,7 @@ namespace DEppAssignment3
             {
                 num_rows = int.Parse(txtRows.Text);
                 num_columns = int.Parse(txtColumns.Text);
-                if (num_rows > 7 || num_columns > 7 || num_rows < 2 || num_columns < 2)
+                if (num_rows > MAX_ROWS || num_columns > MAX_COLUMNS || num_rows < MIN_ROWS || num_columns < MIN_COLUMNS)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -462,7 +466,7 @@ namespace DEppAssignment3
             }
             catch (ArgumentOutOfRangeException)
             {
-                MessageBox.Show("Rows and columns must be between 2 and 7.");
+                MessageBox.Show("Rows and columns must be between " + MIN_ROWS + " and " + MAX_ROWS + ".");
                 txtRows.Focus();
             }
             catch (Exception)
